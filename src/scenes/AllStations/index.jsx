@@ -1,50 +1,65 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
+import { createClient } from '@supabase/supabase-js'
+import { useEffect, useState } from "react";
 
-const Invoices = () => {
+const AllStations = () => {
+
+  const [seniorRequest, setSeniorRequest] = useState([])
+
+  useEffect(() => {
+    
+    const getData = async () => {
+      fetch('https://metro-admin-gray.vercel.app/api/admin') 
+      .then(res => res.json())
+      .then(data => {
+        setSeniorRequest(data)
+      })
+    }
+    getData()
+    console.log(seniorRequest);
+
+  }, [])
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "_id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "stop_name",
+      headerName: "stop_name",
+      flex: 1,
+    },
+    {
+      field: "FID",
+      headerName: "FID",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "fid",
+      headerName: "fid",
       flex: 1,
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "geometry",
+      headerName: "geometry",
       flex: 1,
     },
     {
-      field: "cost",
-      headerName: "Cost",
-      flex: 1,
-      renderCell: (params) => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
-        </Typography>
-      ),
-    },
-    {
-      field: "date",
-      headerName: "Date",
+      field: "stop_id",
+      headerName: "stop_id",
       flex: 1,
     },
+   
   ];
 
   return (
     <Box m="20px">
-      <Header title="INVOICES" subtitle="List of Invoice Balances" />
+      <Header title="All Stations" subtitle="List of All Available Stations" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -72,12 +87,19 @@ const Invoices = () => {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${colors.grey[100]} !important`,
+          },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+        <DataGrid
+          rows={seniorRequest}
+          columns={columns}
+          getRowId={(row) => row._id}
+          components={{Toolbar: GridToolbar}}/>
       </Box>
     </Box>
   );
 };
 
-export default Invoices;
+export default AllStations;
