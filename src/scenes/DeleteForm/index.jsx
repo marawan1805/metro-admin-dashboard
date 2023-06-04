@@ -18,6 +18,7 @@ const DeleteForm = () => {
       });
 
     })();
+    alert('Deleted Station')
 
 }
 

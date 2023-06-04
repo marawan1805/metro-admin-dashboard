@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 const SeniorRequests = () => {
 
   const [seniorRequest, setSeniorRequest] = useState([])
+  const [reload, setReload] = useState(true)
 
   useEffect(() => {
     
@@ -21,7 +22,7 @@ const SeniorRequests = () => {
     }
     getData()
 
-  }, [])
+  }, [reload])
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -52,6 +53,80 @@ const SeniorRequests = () => {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
+    },
+    {
+      field: "accept",
+      headerName: "",
+      sortable: false,
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation(); // don't select this row after clicking
+  
+          const api = params.api;
+          const thisRow = {};
+  
+          api
+            .getAllColumns()
+            .filter((c) => c.field !== "__check__" && !!c)
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+            );
+  
+          
+            (async () => {
+              await fetch('https://cairo-metro-senior-refund.vercel.app/api/senior-request/approve', {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({"id":thisRow.id})
+              });
+              setReload(!reload)
+              alert('Approved Request')
+           
+            })();
+        };
+  
+        return <Button variant="contained" onClick={onClick}>Approve</Button>;
+      }
+    },
+    {
+      field: "deny",
+      headerName: "",
+      sortable: false,
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation(); // don't select this row after clicking
+  
+          const api = params.api;
+          const thisRow = {};
+  
+          api
+            .getAllColumns()
+            .filter((c) => c.field !== "__check__" && !!c)
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+            );
+  
+          
+            (async () => {
+              await fetch('https://cairo-metro-senior-refund.vercel.app/api/senior-request/reject', {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({"id":thisRow.id})
+              });
+              setReload(!reload)
+              alert('Rejected Request')
+           
+            })();
+        };
+  
+        return <Button variant="contained" onClick={onClick}>Reject</Button>;
+      }
     },
   ];
 

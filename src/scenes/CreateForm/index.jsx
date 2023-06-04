@@ -19,6 +19,8 @@ const CreateForm = () => {
       });
    
     })();
+    alert('Created Station')
+
   };
 
   return (
