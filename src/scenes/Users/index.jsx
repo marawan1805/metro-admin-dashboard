@@ -61,6 +61,11 @@ const Users = () => {
       headerName: "isSenior",
       flex: 1,
     },
+    {
+      field: "nationalId",
+      headerName: "nationalId",
+      flex: 1,
+    },
    
   ];
 

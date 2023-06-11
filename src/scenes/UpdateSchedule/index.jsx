@@ -1,15 +1,36 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const CreateForm = () => {
+const UpdateSchedule = () => {
+
+  const [stopIDs, setStopIDs] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      fetch('https://metro-admin-gray.vercel.app/api/admin') 
+      .then(res => res.json())
+      .then(data => {
+        setStopIDs(data.map(element => {
+          return {label: element.stop_id}
+        }))
+        
+      })
+    }
+    getData()
+  console.log(stopIDs);
+  }, [])
+  
+
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
     (async () => {
-      await fetch('https://metro-admin-gray.vercel.app/api/admin/route-station', {
+      await fetch(`https://metro-admin-gray.vercel.app/api/admin/updateSchedule/${values.stop_id}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -19,14 +40,14 @@ const CreateForm = () => {
       });
    
     })();
-    alert('Created Station')
+    alert('Updated Schedule')
 
   };
 
   return (
     <Box m="20px">
-      <Header title="Create New Station" subtitle="Add a Station" />
-
+      <Header title="Update Schedule" subtitle="Change The Schedule" />
+      <h1>Make Sure To Fill All Fields</h1>
       <Formik
         onSubmit={(values, {resetForm}) => {
           handleFormSubmit(values)
@@ -51,76 +72,91 @@ const CreateForm = () => {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
-              <TextField
+
+                <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="lat"
+                label="stop_id"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.lat}
-                name="lat"
-                error={!!touched.lat && !!errors.lat}
-                helperText={touched.lat && errors.lat}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="long"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.long}
-                name="long"
-                error={!!touched.long && !!errors.long}
-                helperText={touched.long && errors.filongd}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="routeId "
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.routeId}
-                name="routeId"
-                error={!!touched.routeId && !!errors.routeId}
-                helperText={touched.routeId && errors.routeId}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="stopId"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.stopId}
+                value={values.stop_id}
                 name="stop_id"
-                error={!!touched.stopId && !!errors.stopId}
-                helperText={touched.stopId && errors.stopId}
+                error={!!touched.FID && !!errors.FID}
+                helperText={touched.FID && errors.FID}
+                sx={{ gridColumn: "span 2" }}
+              />
+
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="route_id"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.route_id}
+                name="route_id"
+                error={!!touched.FID && !!errors.FID}
+                helperText={touched.FID && errors.FID}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="stopName"
+                label="direction"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.stopName}
-                name="stop_name"
-                error={!!touched.stopName && !!errors.stopName}
-                helperText={touched.stopName && errors.stopName}
-                sx={{ gridColumn: "span 4" }}
+                value={values.direction}
+                name="direction"
+                error={!!touched.fid && !!errors.fid}
+                helperText={touched.fid && errors.fid}
+                sx={{ gridColumn: "span 2" }}
               />
-             
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="arrival_time "
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.arrival_time}
+                name="arrival_time"
+                error={!!touched.geometry && !!errors.geometry}
+                helperText={touched.geometry && errors.geometry}
+                sx={{ gridColumn: "span 2" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="departure_time "
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.departure_time}
+                name="departure_time"
+                error={!!touched.geometry && !!errors.geometry}
+                helperText={touched.geometry && errors.geometry}
+                sx={{ gridColumn: "span 2" }}
+              />
+              
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Stop Name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.stop_name}
+                name="stop_name"
+                error={!!touched.stop_name && !!errors.stop_name}
+                helperText={touched.stop_name && errors.stop_name}
+                sx={{ gridColumn: "span 2" }}
+              />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New Station
+                Update Schedule
               </Button>
             </Box>
           </form>
@@ -145,12 +181,12 @@ const checkoutSchema = yup.object().shape({
   address2: yup.string().required("required"),
 });
 const initialValues = {
-  
-  lat: "",
-  long: "",
-  routeId: "",
-  stopName: "",
-  stopId: "",
+  route_id: "",
+  direction: "",
+  stop_id: "",
+  stop_name: "",
+  arrival_time: "",
+  departure_time: "",
 };
 
-export default CreateForm;
+export default UpdateSchedule;

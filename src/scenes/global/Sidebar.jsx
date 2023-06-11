@@ -20,7 +20,12 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
+import RemoveRoadIcon from '@mui/icons-material/RemoveRoad';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -43,7 +48,7 @@ const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Users");
 
   return (
     <Box
@@ -111,23 +116,23 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  Admin
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  Dashboard
                 </Typography>
               </Box>
             </Box>
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
+            {/* <Item
               title="Dashboard"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"
@@ -138,7 +143,7 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Users"
-              to="/Users"
+              to="/"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -181,6 +186,14 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
+            <Item
+              title="Update Station"
+              to="/updatestation"
+              icon={<UpgradeIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             
             <Item
               title="Delete Station"
@@ -189,6 +202,55 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Schedule Data
+            </Typography>
+
+            <Item
+              title="Schedule"
+              to="/schedule"
+              icon={<CalendarTodayIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Update Schedule"
+              to="/updateschedule"
+              icon={<EventRepeatIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Price Data
+            </Typography>
+
+            <Item
+              title="Prices"
+              to="/prices"
+              icon={<LocalOfferIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Update Prices"
+              to="/updateprices"
+              icon={<PriceChangeIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
             
             {/* <Item
               title="Calendar"

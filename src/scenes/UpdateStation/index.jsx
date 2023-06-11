@@ -4,13 +4,13 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 
-const CreateForm = () => {
+const UpdateStation = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
     (async () => {
-      await fetch('https://metro-admin-gray.vercel.app/api/admin/route-station', {
-        method: 'POST',
+      await fetch('', {
+        method: 'PATCH',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -19,13 +19,13 @@ const CreateForm = () => {
       });
    
     })();
-    alert('Created Station')
+    alert('Updated Station')
 
   };
 
   return (
     <Box m="20px">
-      <Header title="Create New Station" subtitle="Add a Station" />
+      <Header title="Update Station"  />
 
       <Formik
         onSubmit={(values, {resetForm}) => {
@@ -88,39 +88,13 @@ const CreateForm = () => {
                 name="routeId"
                 error={!!touched.routeId && !!errors.routeId}
                 helperText={touched.routeId && errors.routeId}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="stopId"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.stopId}
-                name="stop_id"
-                error={!!touched.stopId && !!errors.stopId}
-                helperText={touched.stopId && errors.stopId}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="stopName"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.stopName}
-                name="stop_name"
-                error={!!touched.stopName && !!errors.stopName}
-                helperText={touched.stopName && errors.stopName}
                 sx={{ gridColumn: "span 4" }}
               />
              
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New Station
+                Update Station
               </Button>
             </Box>
           </form>
@@ -153,4 +127,4 @@ const initialValues = {
   stopId: "",
 };
 
-export default CreateForm;
+export default UpdateStation;

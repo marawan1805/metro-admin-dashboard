@@ -17,6 +17,11 @@ import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import AllStations from "./scenes/AllStations";
 import DeleteForm from "./scenes/DeleteForm";
+import Schedule from "./scenes/Schedule";
+import UpdateSchedule from "./scenes/UpdateSchedule";
+import Prices from "./scenes/Prices";
+import UpdatePrices from "./scenes/UpdatePrices";
+import UpdateStation from "./scenes/UpdateStation";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -31,13 +36,18 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/Users" element={<Users />} />
+              {/* <Route path="/" element={<Dashboard />} /> */}
+              <Route path="/" element={<Users />} />
               <Route path="/RefundRequests" element={<RefundRequests />} />
               <Route path="/SeniorRequests" element={<SeniorRequests />} />
               <Route path="/createform" element={<CreateForm />} />
               <Route path="/deleteform" element={<DeleteForm />} />
               <Route path="/allstations" element={<AllStations />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/updateschedule" element={<UpdateSchedule />} />
+              <Route path="/prices" element={<Prices />} />
+              <Route path="/updateprices" element={<UpdatePrices />} />
+              <Route path="/updatestation" element={<UpdateStation />} />
               {/* <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />

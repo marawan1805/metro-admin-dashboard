@@ -1,19 +1,17 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
-import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from "react";
 
-const AllStations = () => {
+const Prices = () => {
 
   const [seniorRequest, setSeniorRequest] = useState([])
 
   useEffect(() => {
     
     const getData = async () => {
-      fetch('https://metro-admin-gray.vercel.app/api/admin') 
+      fetch('https://metro-admin-gray.vercel.app/api/admin/prices') 
       .then(res => res.json())
       .then(data => {
         setSeniorRequest(data)
@@ -29,33 +27,13 @@ const AllStations = () => {
   const columns = [
     { field: "_id", headerName: "ID" },
     {
-      field: "stop_name",
-      headerName: "stop_name",
+      field: "numOfStations",
+      headerName: "numOfStations",
       flex: 1,
     },
     {
-      field: "FID",
-      headerName: "FID",
-      flex: 1,
-    },
-    {
-      field: "route_id",
-      headerName: "route_id",
-      flex: 1,
-    },
-    {
-      field: "fid",
-      headerName: "fid",
-      flex: 1,
-    },
-    {
-      field: "geometry",
-      headerName: "geometry",
-      flex: 1,
-    },
-    {
-      field: "stop_id",
-      headerName: "stop_id",
+      field: "price",
+      headerName: "price",
       flex: 1,
     },
    
@@ -106,4 +84,4 @@ const AllStations = () => {
   );
 };
 
-export default AllStations;
+export default Prices;
